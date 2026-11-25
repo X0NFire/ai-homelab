@@ -16,7 +16,7 @@
 | :--- | :--- | :--- |
 | **Protocols & Bridges** | ESPHome Device Builder, Govee to MQTT Bridge, Home-Assistant-Matter-Hub, Mosquitto broker, Z-Wave JS UI, Zigbee2MQTT | — |
 | **Cameras, Media & Makers** | Bambuddy, Frigate (Full Access), Immich, Music Assistant, Piper | OctoEverywhere |
-| **Household, Finance & Security** | Actual Budget Stable, Grocy, MariaDB, Vaultwarden | Paperless |
+| **Household, Finance & Security** | Actual Budget Stable, Grocy, MariaDB, Paperless, Vaultwarden | — |
 | **Networking & Admin** | AdGuard Home, Cloudflared, Home Assistant Google Drive Backup, Nginx Proxy Manager, Samba share, Studio Code Server | — |
 
 ### Active Home Assistant Integrations (51)
