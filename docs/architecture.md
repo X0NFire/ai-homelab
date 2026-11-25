@@ -5,7 +5,7 @@
 | Node | Hardware Profile | Role | Primary Workloads |
 | :--- | :--- | :--- | :--- |
 | **Control Plane** | Intel NUC7i5 (HAOS) | 24/7 State Engine & IoT Hub | Home Assistant Core, Mosquitto MQTT, Zigbee2MQTT, Z-Wave JS UI, Frigate NVR, Immich App, Grocy, Nginx Proxy Manager, Cloudflared |
-| **AI & ML Compute** | ASUS ROG Strix G15CE (i7-11700KF, RTX 3080 10GB) | GPU Inference & Document/Agentic Compute | Ollama (`qwen3:8b`, `qwen3-vl:8b-instruct`, `qwen3.5:4b`, `minicpm-v`), Open WebUI, Immich ML, Docling, Paperless-GPT, Obico ML, Custom MCP Servers |
+| **AI & ML Compute** | ASUS ROG Strix G15CE (i7-11700KF, RTX 3080 10GB) | GPU Inference & Document/Agentic Compute | Ollama (`qwen3:8b`, `qwen3-vl:8b-instruct`, `qwen3-embedding:0.6b`, `buffalo_l`, `ViT-B-32__openai`, 'YOLOv2 (Darknet)'), Open WebUI, Immich ML, Docling, Paperless-GPT, Obico ML, Custom MCP Servers |
 | **Storage Tier** | Synology DS718+ NAS | Bulk Storage & Backups | Media libraries, camera archives, and long-term system backups |
 | **Network Edge** | ASUS RT-AX86U Pro + RT-AX86U (Wired AiMesh) | Routing, DNS & Ingress | Wired Ethernet backhaul, AdGuard Home DNS filtering, Nginx Proxy Manager, Cloudflare Tunnel |
 
