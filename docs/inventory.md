@@ -39,7 +39,7 @@
 
 | Stack / Group | Container Name | Image | Host Port | Purpose |
 | :--- | :--- | :--- | :--- | :--- |
-| **Ollama (Host/Service)** | — | Local Ollama runtime | `11434` | Serves `qwen3:8b`, `qwen3-vl:8b-instruct`, `qwen3.5:4b`, and `minicpm-v` |
+| **Ollama (Host/Service)** | — | Local Ollama runtime | `11434` | Serves `qwen3:8b`, `qwen3-vl:8b-instruct`, and `qwen3-embedding:0.6b` |
 | **open-webui** | `open-webui` | `open-webui/open-webui:cuda` | `3001:8080` | CUDA-accelerated chat & RAG interface |
 | **immich-ml** | `immich_machine_learning` | `immich-app/immich-machine-learning:release` | `3003:3003` | Remote ML inference for NUC-hosted Immich |
 | **paperless-ml** | `docling-server` | `docling-project/docling-serve-cu128:v1.21.0` | `5001:5001` | CUDA layout-aware document parsing |
