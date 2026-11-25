@@ -1,0 +1,53 @@
+# ==============================================================================
+# Sanitized Example Package: Event-Driven Frigate + Local VLM Alerting
+# Demonstrates local-push MQTT trigger -> RTX 3080 VLM analysis -> resilient fallback
+# ==============================================================================
+
+automation:
+  - id: frigate_front_door_vlm_summary
+    alias: "AI Vision: Front Door Person Summary"
+    description: "Analyzes Frigate person events with local Ollama VLM and falls back cleanly on timeout."
+    mode: single
+    max_exceeded: silent
+
+    triggers:
+      - trigger: mqtt
+        topic: frigate/events
+        payload: "front_door"
+        value_template: "{{ value_json.after.camera }}"
+
+    conditions:
+      - condition: template
+        value_template: >
+          {{ value_json.type == 'new'
+             and value_json.after.label == 'person'
+             and (value_json.after.score | float(0)) >= 0.75 }}
+
+    actions:
+      - variables:
+          event_id: "{{ value_json.after.id }}"
+          snapshot_url: "http://127.0.0.1:5000/api/events/{{ event_id }}/snapshot.jpg"
+
+      - action: llmvision.image_analyzer
+        continue_on_error: true
+        data:
+          provider: Ollama
+          model: qwen3-vl:8b-instruct
+          message: >
+            Summarize the person at the front door in one concise sentence.
+            Note packages, delivery uniforms, or visitors. Do not speculate.
+          image_file: "{{ snapshot_url }}"
+          max_tokens: 80
+          temperature: 0.2
+        response_variable: vlm_result
+
+      - action: notify.mobile_app_primary
+        data:
+          title: "Front Door Activity"
+          message: >
+            {{ vlm_result.response_text
+               if vlm_result is defined and vlm_result.response_text is defined
+               else 'Person detected at the front door (local VLM unavailable).' }}
+          data:
+            image: "/api/frigate/notifications/{{ event_id }}/snapshot.jpg"
+            tag: "front-door-{{ event_id }}"

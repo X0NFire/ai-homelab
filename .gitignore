@@ -1,0 +1,30 @@
+# Secrets & Environment Variables
+.env
+*.env
+!.env.example
+secrets.yaml
+!secrets.yaml.example
+*.pem
+*.key
+*.crt
+
+# Home Assistant Local State & Databases
+*.db
+*.db-shm
+*.db-wal
+*.log
+.storage/
+.cloud/
+.google.token
+home-assistant_v2.db*
+tts/
+deps/
+
+# Docker & Runtime Volumes
+volumes/
+data/
+models/
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db

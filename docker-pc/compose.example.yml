@@ -1,0 +1,96 @@
+# ==============================================================================
+# Sanitized Docker Compose Reference — ASUS ROG Strix G15CE (RTX 3080)
+# Mirrors active AI/ML stacks running alongside Home Assistant OS (NUC7i5)
+# ==============================================================================
+
+services:
+  open-webui:
+    image: open-webui/open-webui:cuda
+    container_name: open-webui
+    ports:
+      - "3001:8080"
+    environment:
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+    volumes:
+      - open-webui-data:/app/backend/data
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped
+
+  immich-machine-learning:
+    image: immich-app/immich-machine-learning:release
+    container_name: immich_machine_learning
+    ports:
+      - "3003:3003"
+    volumes:
+      - immich-model-cache:/cache
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped
+
+  docling-server:
+    image: docling-project/docling-serve-cu128:v1.21.0
+    container_name: docling-server
+    ports:
+      - "5001:5001"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped
+
+  paperless-docling:
+    image: icereed/paperless-gpt:latest
+    container_name: paperless-docling
+    ports:
+      - "3002:8080"
+    environment:
+      - LLM_PROVIDER=ollama
+      - OLLAMA_HOST=http://host.docker.internal:11434
+      - VISION_LLM_MODEL=qwen3-vl:8b-instruct
+      - LLM_MODEL=qwen3:8b
+    depends_on:
+      - docling-server
+    restart: unless-stopped
+
+  mcp-grocy:
+    image: mcp-grocy-mcp-grocy:latest
+    container_name: mcp-grocy
+    ports:
+      - "8792:8080"
+    environment:
+      - GROCY_URL=${GROCY_URL:-http://192.168.1.10:9192}
+      - GROCY_API_KEY=${GROCY_API_KEY:-replace_me}
+    restart: unless-stopped
+
+  obico-ml:
+    image: thespaghettidetective/ml_api:latest
+    container_name: api
+    ports:
+      - "5002:3333"
+    restart: unless-stopped
+
+  actual-ai:
+    image: sakowicz/actual-ai:latest
+    container_name: actual-ai
+    environment:
+      - ACTUAL_SERVER_URL=${ACTUAL_SERVER_URL:-http://192.168.1.10:5006}
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+    restart: unless-stopped
+
+volumes:
+  open-webui-data:
+  immich-model-cache:

@@ -1,0 +1,2 @@
+# local-first-ai-homelab
+
